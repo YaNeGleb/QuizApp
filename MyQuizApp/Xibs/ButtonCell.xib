@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="collection view cell content view" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="qxF-Lv-suV" customClass="ButtonCell" customModule="MyQuizApp" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="160" height="160"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="Sj1-se-DwT">
+                <rect key="frame" x="0.0" y="0.0" width="160" height="160"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7RG-59-Q2v">
+                        <rect key="frame" x="0.0" y="0.0" width="160" height="160"/>
+                        <color key="backgroundColor" systemColor="systemGroupedBackgroundColor"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="160" id="nRb-bq-peE"/>
+                            <constraint firstAttribute="width" constant="160" id="zBr-Y6-AJN"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="21"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KSq-nW-het">
+                        <rect key="frame" x="0.0" y="110" width="160" height="40"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="40" id="kn9-e3-ePu"/>
+                            <constraint firstAttribute="width" constant="160" id="lc8-Nf-l7a"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="7RG-59-Q2v" firstAttribute="leading" secondItem="Sj1-se-DwT" secondAttribute="leading" id="4bg-k4-5aY"/>
+                    <constraint firstAttribute="trailing" secondItem="KSq-nW-het" secondAttribute="trailing" id="JNF-iW-6hR"/>
+                    <constraint firstItem="7RG-59-Q2v" firstAttribute="top" secondItem="Sj1-se-DwT" secondAttribute="top" id="K9R-g9-yCz"/>
+                    <constraint firstAttribute="bottom" secondItem="7RG-59-Q2v" secondAttribute="bottom" id="Kqk-34-fHK"/>
+                    <constraint firstAttribute="trailing" secondItem="7RG-59-Q2v" secondAttribute="trailing" id="fr7-hE-lfp"/>
+                    <constraint firstItem="KSq-nW-het" firstAttribute="leading" secondItem="Sj1-se-DwT" secondAttribute="leading" id="hPl-hx-7KP"/>
+                    <constraint firstAttribute="bottom" secondItem="KSq-nW-het" secondAttribute="bottom" constant="10" id="sA8-YS-oUL"/>
+                </constraints>
+            </collectionViewCellContentView>
+            <connections>
+                <outlet property="categoryLabel" destination="7RG-59-Q2v" id="eb9-89-ZmF"/>
+                <outlet property="countQuestionsLabel" destination="KSq-nW-het" id="bm4-8I-znp"/>
+            </connections>
+            <point key="canvasLocation" x="-12.977099236641221" y="22.183098591549296"/>
+        </collectionViewCell>
+    </objects>
+    <resources>
+        <systemColor name="systemGroupedBackgroundColor">
+            <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+    </resources>
+</document>
