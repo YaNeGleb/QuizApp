@@ -35,6 +35,7 @@ class QuestionViewController: UIViewController {
     var category: Category?
     weak var delegate: QuestionViewControllerDelegate?
     var isAnswerButtonTapped = false
+    var selectedAnswerIndex: Int? = nil
     
     
     
@@ -45,6 +46,43 @@ class QuestionViewController: UIViewController {
         configure()
         
     }
+    
+    func saveGameData() {
+        guard let category = self.category else { return }
+        let context = CoreDataManager.shared.persistentContainer.viewContext
+        let gameDate = Date() // Получение текущей даты
+        
+        if currentQuestionIndex < questions.count {
+            // Проверяем, что индекс currentQuestionIndex не превышает количество вопросов в массиве questions.
+            let gameQuestion = questions[currentQuestionIndex].question
+            let gameCategory = category.name
+            let gameCorrectAnswer = questions[currentQuestionIndex].answers[questions[currentQuestionIndex].correctAnswerIndex]
+            let gameUserAnswer = selectedAnswerIndex != nil ? questions[currentQuestionIndex].answers[selectedAnswerIndex!] : "No Answer"
+            
+            print("Игровые данные для сохранения:")
+            print("Дата: \(gameDate)")
+            print("Вопрос: \(gameQuestion)")
+            print("Категория: \(gameCategory)")
+            print("Правильный ответ: \(gameCorrectAnswer)")
+            print("Ответ пользователя: \(gameUserAnswer)")
+            
+            GameRecord.createAndSave(in: context,
+                                     date: gameDate,
+                                     question: gameQuestion,
+                                     category: gameCategory,
+                                     correctAnswer: gameCorrectAnswer,
+                                     userAnswer: gameUserAnswer)
+            
+            do {
+                try context.save()
+                print("Игровые данные успешно сохранены в Core Data.")
+            } catch {
+                print("Ошибка при сохранении игровых данных: \(error)")
+            }
+        }
+    }
+
+
     
     
     // MARK: - Configure
@@ -109,6 +147,8 @@ class QuestionViewController: UIViewController {
     
     @objc func answerButtonTapped(_ sender: UIButton) {
         
+        selectedAnswerIndex = sender.tag
+        
         let currentQuestion = questions[currentQuestionIndex]
         
         if sender.tag == currentQuestion.correctAnswerIndex {
@@ -128,6 +168,7 @@ class QuestionViewController: UIViewController {
         isAnswerButtonTapped = true
         nextQuestionButton.isHidden = false
         updateScoreLabel()
+        saveGameData()
     }
     
     
@@ -145,7 +186,7 @@ class QuestionViewController: UIViewController {
         alert.addAction(restartAction)
         alert.addAction(mainvcAction)
         
-        present(alert, animated: true, completion: nil)
+        present(alert, animated: true)
     }
     
     

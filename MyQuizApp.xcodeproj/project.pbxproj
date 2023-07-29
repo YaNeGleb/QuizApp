@@ -8,9 +8,16 @@
 
 /* Begin PBXBuildFile section */
 		515B36AD2A7427A90082AF73 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 515B36AC2A7427A90082AF73 /* Model.swift */; };
+		515C8BE72A756F0900C7613A /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 515C8BE62A756F0900C7613A /* CoreDataManager.swift */; };
+		515C8BE92A7570F800C7613A /* GameHistoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 515C8BE82A7570F800C7613A /* GameHistoryViewController.swift */; };
 		51623E142A651D24009CC23E /* jsonTest1.json in Resources */ = {isa = PBXBuildFile; fileRef = 51623E132A651D24009CC23E /* jsonTest1.json */; };
 		51623E162A65226D009CC23E /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51623E152A65226D009CC23E /* DataManager.swift */; };
 		51623E182A6525F1009CC23E /* UserDefaultsKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51623E172A6525F1009CC23E /* UserDefaultsKeys.swift */; };
+		516A67C52A75947200E0303D /* GameRecordModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 516A67C32A75947200E0303D /* GameRecordModel.xcdatamodeld */; };
+		516A67C82A75957700E0303D /* GameRecord+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 516A67C62A75957700E0303D /* GameRecord+CoreDataClass.swift */; };
+		516A67C92A75957700E0303D /* GameRecord+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 516A67C72A75957700E0303D /* GameRecord+CoreDataProperties.swift */; };
+		516A67CC2A7599F200E0303D /* GameHistoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 516A67CA2A7599F200E0303D /* GameHistoryCell.swift */; };
+		516A67CD2A7599F200E0303D /* GameHistoryCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 516A67CB2A7599F200E0303D /* GameHistoryCell.xib */; };
 		517B33252A69932300215DE3 /* ImageView+LoadImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 517B33242A69932300215DE3 /* ImageView+LoadImage.swift */; };
 		51B5874E2A640C430050E285 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51B5874D2A640C430050E285 /* AppDelegate.swift */; };
 		51B587502A640C430050E285 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51B5874F2A640C430050E285 /* SceneDelegate.swift */; };
@@ -28,9 +35,16 @@
 
 /* Begin PBXFileReference section */
 		515B36AC2A7427A90082AF73 /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
+		515C8BE62A756F0900C7613A /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
+		515C8BE82A7570F800C7613A /* GameHistoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameHistoryViewController.swift; sourceTree = "<group>"; };
 		51623E132A651D24009CC23E /* jsonTest1.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = jsonTest1.json; sourceTree = "<group>"; };
 		51623E152A65226D009CC23E /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		51623E172A6525F1009CC23E /* UserDefaultsKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsKeys.swift; sourceTree = "<group>"; };
+		516A67C42A75947200E0303D /* GameRecordModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = GameRecordModel.xcdatamodel; sourceTree = "<group>"; };
+		516A67C62A75957700E0303D /* GameRecord+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GameRecord+CoreDataClass.swift"; sourceTree = "<group>"; };
+		516A67C72A75957700E0303D /* GameRecord+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GameRecord+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		516A67CA2A7599F200E0303D /* GameHistoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameHistoryCell.swift; sourceTree = "<group>"; };
+		516A67CB2A7599F200E0303D /* GameHistoryCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GameHistoryCell.xib; sourceTree = "<group>"; };
 		517B33242A69932300215DE3 /* ImageView+LoadImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ImageView+LoadImage.swift"; sourceTree = "<group>"; };
 		51B5874A2A640C430050E285 /* MyQuizApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyQuizApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		51B5874D2A640C430050E285 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -65,6 +79,7 @@
 				51B587512A640C430050E285 /* MainViewController.swift */,
 				51B587632A640CD30050E285 /* GroupsViewController.swift */,
 				51B587612A640C9D0050E285 /* QuestionViewController.swift */,
+				515C8BE82A7570F800C7613A /* GameHistoryViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -81,6 +96,8 @@
 			isa = PBXGroup;
 			children = (
 				515B36AC2A7427A90082AF73 /* Model.swift */,
+				516A67C72A75957700E0303D /* GameRecord+CoreDataProperties.swift */,
+				516A67C62A75957700E0303D /* GameRecord+CoreDataClass.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -96,6 +113,7 @@
 		515B36B22A7446240082AF73 /* Xibs */ = {
 			isa = PBXGroup;
 			children = (
+				516A67CB2A7599F200E0303D /* GameHistoryCell.xib */,
 				51B587672A640D280050E285 /* ButtonCell.xib */,
 				51C3BE7C2A6A737D00732D1A /* CustomPopUpView.xib */,
 			);
@@ -106,6 +124,7 @@
 			isa = PBXGroup;
 			children = (
 				51B587692A6410EC0050E285 /* ButtonCell.swift */,
+				516A67CA2A7599F200E0303D /* GameHistoryCell.swift */,
 			);
 			path = CustomCell;
 			sourceTree = "<group>";
@@ -114,6 +133,7 @@
 			isa = PBXGroup;
 			children = (
 				51623E152A65226D009CC23E /* DataManager.swift */,
+				515C8BE62A756F0900C7613A /* CoreDataManager.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -155,6 +175,7 @@
 		51B587412A640C430050E285 = {
 			isa = PBXGroup;
 			children = (
+				516A67C32A75947200E0303D /* GameRecordModel.xcdatamodeld */,
 				51B5874C2A640C430050E285 /* MyQuizApp */,
 				51B5874B2A640C430050E285 /* Products */,
 			);
@@ -248,6 +269,7 @@
 			files = (
 				51623E142A651D24009CC23E /* jsonTest1.json in Resources */,
 				51B5875A2A640C450050E285 /* LaunchScreen.storyboard in Resources */,
+				516A67CD2A7599F200E0303D /* GameHistoryCell.xib in Resources */,
 				51B587572A640C450050E285 /* Assets.xcassets in Resources */,
 				51B587552A640C430050E285 /* Main.storyboard in Resources */,
 				51C3BE7D2A6A737D00732D1A /* CustomPopUpView.xib in Resources */,
@@ -263,6 +285,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				51B587522A640C430050E285 /* MainViewController.swift in Sources */,
+				516A67CC2A7599F200E0303D /* GameHistoryCell.swift in Sources */,
+				515C8BE92A7570F800C7613A /* GameHistoryViewController.swift in Sources */,
+				516A67C92A75957700E0303D /* GameRecord+CoreDataProperties.swift in Sources */,
+				516A67C82A75957700E0303D /* GameRecord+CoreDataClass.swift in Sources */,
 				51623E162A65226D009CC23E /* DataManager.swift in Sources */,
 				51B5874E2A640C430050E285 /* AppDelegate.swift in Sources */,
 				515B36AD2A7427A90082AF73 /* Model.swift in Sources */,
@@ -272,6 +298,8 @@
 				51B587502A640C430050E285 /* SceneDelegate.swift in Sources */,
 				51B587642A640CD30050E285 /* GroupsViewController.swift in Sources */,
 				517B33252A69932300215DE3 /* ImageView+LoadImage.swift in Sources */,
+				515C8BE72A756F0900C7613A /* CoreDataManager.swift in Sources */,
+				516A67C52A75947200E0303D /* GameRecordModel.xcdatamodeld in Sources */,
 				51B5876A2A6410EC0050E285 /* ButtonCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -490,6 +518,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		516A67C32A75947200E0303D /* GameRecordModel.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				516A67C42A75947200E0303D /* GameRecordModel.xcdatamodel */,
+			);
+			currentVersion = 516A67C42A75947200E0303D /* GameRecordModel.xcdatamodel */;
+			path = GameRecordModel.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 51B587422A640C430050E285 /* Project object */;
 }

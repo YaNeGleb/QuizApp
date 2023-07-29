@@ -103,8 +103,8 @@ class MainViewController: UIViewController {
         let attributedText = NSMutableAttributedString()
         
         // Add header
-        let headerText = NSAttributedString(string: "Информация о прошлой игре:\n", attributes: [
-            .font: UIFont.boldSystemFont(ofSize: 19),
+        let headerText = NSAttributedString(string: "Информация о прошлой игре:\n\n", attributes: [
+            .font: UIFont.boldSystemFont(ofSize: 20),
         ])
         attributedText.append(headerText)
         
