@@ -65,13 +65,18 @@
                                     <constraint firstAttribute="height" constant="450" id="KIT-Yo-sBU"/>
                                 </constraints>
                             </stackView>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AfY-OF-qPK">
-                                <rect key="frame" x="159" y="729" width="75" height="35"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AfY-OF-qPK">
+                                <rect key="frame" x="81.666666666666686" y="643" width="230" height="70"/>
+                                <color key="backgroundColor" systemColor="systemBlueColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="230" id="29U-ll-b7N"/>
+                                    <constraint firstAttribute="height" constant="70" id="qQg-m9-kWv"/>
+                                </constraints>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="История игр"/>
                                 <connections>
-                                    <segue destination="0eh-GF-V7y" kind="show" id="Fpa-HU-laJ"/>
+                                    <segue destination="0eh-GF-V7y" kind="show" id="TnO-us-j69"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -80,12 +85,15 @@
                         <constraints>
                             <constraint firstItem="xRH-D8-21b" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="60" id="3bX-Yb-SAJ"/>
                             <constraint firstItem="xRH-D8-21b" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="65" id="PWj-jn-Wee"/>
+                            <constraint firstItem="AfY-OF-qPK" firstAttribute="top" secondItem="xRH-D8-21b" secondAttribute="bottom" constant="30" id="Qmd-fz-HA7"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="xRH-D8-21b" secondAttribute="trailing" constant="65" id="cZ6-yl-p8V"/>
+                            <constraint firstItem="AfY-OF-qPK" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="q0y-nG-VEz"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="ltF-E2-nY6"/>
                     <connections>
                         <outlet property="categoryLabel" destination="dKm-tq-9pU" id="Ief-BZ-Zvn"/>
+                        <outlet property="historyButton" destination="AfY-OF-qPK" id="ILh-aA-pI2"/>
                         <outlet property="startGameButton" destination="4Ps-Z2-JfB" id="eOx-J3-Ce3"/>
                         <outlet property="statisticsLabel" destination="PO6-6d-zc2" id="VjD-m3-SDJ"/>
                     </connections>
@@ -94,7 +102,7 @@
             </objects>
             <point key="canvasLocation" x="1066.4122137404579" y="4.9295774647887329"/>
         </scene>
-        <!--Game History View Controller-->
+        <!--История-->
         <scene sceneID="XR9-bJ-gjv">
             <objects>
                 <viewController id="0eh-GF-V7y" customClass="GameHistoryViewController" customModule="MyQuizApp" customModuleProvider="target" sceneMemberID="viewController">
@@ -116,14 +124,52 @@
                             <constraint firstItem="f2d-2P-LS7" firstAttribute="trailing" secondItem="OMt-8C-x2B" secondAttribute="trailing" id="yNF-hT-OU0"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="XgK-nc-ToA"/>
+                    <navigationItem key="navigationItem" title="История" id="XgK-nc-ToA">
+                        <barButtonItem key="rightBarButtonItem" image="trash" catalog="system" id="1eC-gw-tpQ">
+                            <connections>
+                                <action selector="deleteButtonTapped:" destination="0eh-GF-V7y" id="eow-TC-bXp"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
+                        <outlet property="deleteButton" destination="1eC-gw-tpQ" id="1zm-ed-AQC"/>
                         <outlet property="tableView" destination="OMt-8C-x2B" id="smd-K3-KWs"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2MA-Iw-0Hf" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1134" y="656"/>
+            <point key="canvasLocation" x="1442" y="756"/>
+        </scene>
+        <!--Game Details View Controller-->
+        <scene sceneID="TLA-wk-LWA">
+            <objects>
+                <viewController storyboardIdentifier="GameDetailsViewController" id="Vkr-V9-RTm" customClass="GameDetailsViewController" customModule="MyQuizApp" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="hJL-FU-xsJ">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="9Qt-ux-pHj">
+                                <rect key="frame" x="0.0" y="59" width="393" height="759"/>
+                                <color key="backgroundColor" systemColor="systemGroupedBackgroundColor"/>
+                                <color key="sectionIndexBackgroundColor" systemColor="systemGroupedBackgroundColor"/>
+                            </tableView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="5xc-CX-g46"/>
+                        <color key="backgroundColor" systemColor="systemGroupedBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="5xc-CX-g46" firstAttribute="bottom" secondItem="9Qt-ux-pHj" secondAttribute="bottom" id="Daf-y7-ffh"/>
+                            <constraint firstItem="9Qt-ux-pHj" firstAttribute="leading" secondItem="5xc-CX-g46" secondAttribute="leading" id="fNE-qK-3rz"/>
+                            <constraint firstItem="5xc-CX-g46" firstAttribute="trailing" secondItem="9Qt-ux-pHj" secondAttribute="trailing" id="kRu-FO-Hf0"/>
+                            <constraint firstItem="9Qt-ux-pHj" firstAttribute="top" secondItem="5xc-CX-g46" secondAttribute="top" id="pDR-ki-ZH3"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="tableView" destination="9Qt-ux-pHj" id="uF5-l4-jhi"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="mcB-Jl-AaP" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2959.5419847328244" y="737.32394366197184"/>
         </scene>
         <!--Groups View Controller-->
         <scene sceneID="R2O-RR-Dor">
@@ -317,6 +363,7 @@
     <resources>
         <image name="chevron.forward.circle" catalog="system" width="128" height="123"/>
         <image name="info.circle" catalog="system" width="128" height="123"/>
+        <image name="trash" catalog="system" width="117" height="128"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

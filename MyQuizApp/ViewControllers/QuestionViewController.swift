@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import CoreData
 
 protocol QuestionViewControllerDelegate: AnyObject {
     func didCompleteQuiz(with category: String, completedQuestion: Int, questionCount: Int, correctAnswers: Int)
@@ -33,6 +34,8 @@ class QuestionViewController: UIViewController {
     var currentQuestion = 1
     var userScore = 0
     var category: Category?
+    var currentGame: RecordGame?
+    var selectedAnswers: [Int] = []
     weak var delegate: QuestionViewControllerDelegate?
     var isAnswerButtonTapped = false
     var selectedAnswerIndex: Int? = nil
@@ -44,45 +47,63 @@ class QuestionViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configure()
-        
+        createNewGame()
+
     }
     
-    func saveGameData() {
-        guard let category = self.category else { return }
-        let context = CoreDataManager.shared.persistentContainer.viewContext
-        let gameDate = Date() // Получение текущей даты
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
         
-        if currentQuestionIndex < questions.count {
-            // Проверяем, что индекс currentQuestionIndex не превышает количество вопросов в массиве questions.
-            let gameQuestion = questions[currentQuestionIndex].question
-            let gameCategory = category.name
-            let gameCorrectAnswer = questions[currentQuestionIndex].answers[questions[currentQuestionIndex].correctAnswerIndex]
-            let gameUserAnswer = selectedAnswerIndex != nil ? questions[currentQuestionIndex].answers[selectedAnswerIndex!] : "No Answer"
-            
-            print("Игровые данные для сохранения:")
-            print("Дата: \(gameDate)")
-            print("Вопрос: \(gameQuestion)")
-            print("Категория: \(gameCategory)")
-            print("Правильный ответ: \(gameCorrectAnswer)")
-            print("Ответ пользователя: \(gameUserAnswer)")
-            
-            GameRecord.createAndSave(in: context,
-                                     date: gameDate,
-                                     question: gameQuestion,
-                                     category: gameCategory,
-                                     correctAnswer: gameCorrectAnswer,
-                                     userAnswer: gameUserAnswer)
-            
-            do {
-                try context.save()
-                print("Игровые данные успешно сохранены в Core Data.")
-            } catch {
-                print("Ошибка при сохранении игровых данных: \(error)")
-            }
+        if selectedAnswers.isEmpty {
+            guard let currentGame = self.currentGame else { return }
+            CoreDataManager.shared.persistentContainer.viewContext.delete(currentGame)
+            CoreDataManager.shared.saveContext()
         }
     }
 
+    
+    // MARK: - Core Data
+    func saveGameRecord() {
+        guard let currentGame = self.currentGame, !questions.isEmpty else {
+            return
+        }
+        
+        let context = CoreDataManager.shared.persistentContainer.viewContext
+        currentGame.countCorrectAnswer = Int16(userScore)
+        currentGame.completedQuestions = Int16(currentQuestionIndex)
+        CoreDataManager.shared.saveContext()
+    }
+    
+    // MARK: - Create New Game
+    func createNewGame() {
+        let context = CoreDataManager.shared.persistentContainer.viewContext
+        let gameRecord = RecordGame(context: context)
+        gameRecord.category = category?.name
+        gameRecord.countQuestions = Int16(questions.count)
+        gameRecord.date = Date()
+        
+        CoreDataManager.shared.saveContext()
+        
+        self.currentGame = gameRecord
+    }
+    
+    // MARK: - Save Game Question
+    func saveGameQuestion() {
+        guard let currentGame = self.currentGame, !questions.isEmpty, questions.indices.contains(currentQuestionIndex) else {
+            return
+        }
+        let imageUrl = questions[currentQuestionIndex].imageUrl
 
+        let context = CoreDataManager.shared.persistentContainer.viewContext
+        let gameQuestion = QuestionGame(context: context)
+        gameQuestion.question = questions[currentQuestionIndex].question
+        gameQuestion.correctAnswer = questions[currentQuestionIndex].answers[questions[currentQuestionIndex].correctAnswerIndex]
+        gameQuestion.userAnswer = selectedAnswerIndex.map { questions[currentQuestionIndex].answers[$0] } ?? "No Answer"
+        gameQuestion.game = currentGame
+        gameQuestion.image = imageUrl
+        
+        CoreDataManager.shared.saveContext()
+    }
     
     
     // MARK: - Configure
@@ -108,12 +129,11 @@ class QuestionViewController: UIViewController {
         if let imageURL = URL(string: currentQuestion.imageUrl) {
             // If the image url is valid, display the imageView and load the image
             imageView.isHidden = false
-            questionLabel.frame = CGRect(x: 0, y: imageView.frame.maxY + 16, width: customView.bounds.width, height: customView.bounds.height * 0.3)
+            questionLabel.frame = CGRect(x: 0, y: imageView.frame.maxY + 16, width: customView.bounds.width, height: customView.bounds.height * 0.2)
             
             // Load image from URL
             imageView.loadImage(fromURL: imageURL)
         } else {
-            // If the image URL is invalid or missing, hide the imageView and center the questionLabel
             imageView.isHidden = true
             questionLabel.center = CGPoint(x: customView.bounds.midX, y: customView.bounds.midY)
         }
@@ -127,6 +147,11 @@ class QuestionViewController: UIViewController {
             showQuestion()
             savePreviousGame()
             nextQuestionButton.isHidden = true
+            
+            if !isAnswerButtonTapped, let selectedAnswerIndex = selectedAnswerIndex {
+                selectedAnswers.append(selectedAnswerIndex)
+            }
+            
             
             let progress = Float(currentQuestionIndex) / Float(questions.count)
             UIView.animate(withDuration: 0.5) {
@@ -168,7 +193,7 @@ class QuestionViewController: UIViewController {
         isAnswerButtonTapped = true
         nextQuestionButton.isHidden = false
         updateScoreLabel()
-        saveGameData()
+        saveGameQuestion()
     }
     
     
@@ -203,6 +228,8 @@ class QuestionViewController: UIViewController {
         UserDefaults.standard.set(previousGameCorrectAnswers, forKey: UserDefaultsKeys.previousGameCorrectAnswers)
         UserDefaults.standard.set(completedQuestion, forKey: UserDefaultsKeys.completedQuestion)
         
+        saveGameRecord()
+        
         delegate?.didCompleteQuiz(with: previousGameCategory, completedQuestion: completedQuestion, questionCount: previousGameQuestionCount, correctAnswers: previousGameCorrectAnswers)
     }
     
@@ -212,10 +239,12 @@ class QuestionViewController: UIViewController {
         currentQuestionIndex = 0
         currentQuestion = 1
         userScore = 0
+        selectedAnswers = []
         progressView.progress = 0.0
         updateScoreLabel()
         showQuestion()
         nextQuestionButton.isHidden = true
+        
         
     }
     

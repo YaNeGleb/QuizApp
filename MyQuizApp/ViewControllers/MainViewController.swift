@@ -13,6 +13,7 @@ class MainViewController: UIViewController {
     @IBOutlet weak var startGameButton: UIButton!
     @IBOutlet weak var categoryLabel: UILabel!
     @IBOutlet weak var statisticsLabel: UILabel!
+    @IBOutlet weak var historyButton: UIButton!
     
     
     // MARK: - Properties
@@ -80,6 +81,7 @@ class MainViewController: UIViewController {
     // MARK: - UI Configuration
     private func configureUI() {
         startGameButton.layer.cornerRadius = 16
+        historyButton.layer.cornerRadius = 16
         
         categoryLabel.layer.masksToBounds = true
         categoryLabel.layer.cornerRadius = 20

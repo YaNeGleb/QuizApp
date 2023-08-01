@@ -5,7 +5,7 @@
       "questions": [
         {
           "question": "Что такое Swift?",
-          "imageUrl": " ",
+          "imageUrl": "https://i.imgur.com/NQMcopF.jpg",
           "answers": [
             "Язык программирования",
             "Фреймворк",
@@ -16,7 +16,7 @@
         },
         {
           "question": "Какое ключевое слово используется для определения констант в Swift?",
-          "imageUrl": "",
+          "imageUrl": "https://i.imgur.com/dQSUv9M.jpg",
           "answers": [
             "let",
             "var",

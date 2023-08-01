@@ -8,16 +8,18 @@
 import CoreData
 
 class CoreDataManager {
+    
     static let shared = CoreDataManager()
     
+    private init() {}
+    
     lazy var persistentContainer: NSPersistentContainer = {
-        let container = NSPersistentContainer(name: "GameRecordModel") // Update the name to match your data model file name
-        container.loadPersistentStores(completionHandler: { (storeDescription, error) in
+        let container = NSPersistentContainer(name: "GameModel")
+        container.loadPersistentStores(completionHandler: { (_, error) in
             if let error = error as NSError? {
                 fatalError("Unresolved error \(error), \(error.userInfo)")
             }
         })
-        container.viewContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
         return container
     }()
     

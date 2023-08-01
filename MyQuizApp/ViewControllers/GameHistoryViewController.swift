@@ -9,24 +9,46 @@ import UIKit
 import CoreData
 
 class GameHistoryViewController: UIViewController {
-
-    @IBOutlet weak var tableView: UITableView!
     
-    var games: [GameRecord] = []
+    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var deleteButton: UIBarButtonItem!
+    
+    var games: [RecordGame] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.delegate = self
         tableView.dataSource = self
-        
         let nib = UINib(nibName: "GameHistoryCell", bundle: nil)
         tableView.register(nib, forCellReuseIdentifier: "GameHistoryCell")
-        
         fetchGameHistory()
     }
     
+    @IBAction func deleteButtonTapped(_ sender: Any) {
+        deleteAllGameRecords()
+    }
+    
+    private func deleteAllGameRecords() {
+            let context = CoreDataManager.shared.persistentContainer.viewContext
+            let fetchRequest: NSFetchRequest<NSFetchRequestResult> = RecordGame.fetchRequest()
+            let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
+            
+            do {
+                try context.execute(deleteRequest)
+                try context.save()
+                
+                games.removeAll()
+                tableView.reloadData()
+                
+                print("Все данные успешно удалены из Core Data.")
+            } catch {
+                print("Ошибка при удалении данных из Core Data: \(error)")
+            }
+        }
+    
+    
     func fetchGameHistory() {
-        let fetchRequest: NSFetchRequest<GameRecord> = GameRecord.fetchRequest()
+        let fetchRequest: NSFetchRequest<RecordGame> = RecordGame.fetchRequest()
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "date", ascending: false)]
         do {
             let context = CoreDataManager.shared.persistentContainer.viewContext
@@ -37,9 +59,27 @@ class GameHistoryViewController: UIViewController {
             print("Ошибка при получении истории игр: \(error)")
         }
     }
+
+    func showGameDetails(for game: RecordGame) {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        if let gameDetailsVC = storyboard.instantiateViewController(withIdentifier: "GameDetailsViewController") as? GameDetailsViewController {
+            gameDetailsVC.selectedGame = game
+            navigationController?.pushViewController(gameDetailsVC, animated: true)
+        }
+    }
+    
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 125
+    }
 }
 
-extension GameHistoryViewController: UITableViewDelegate {}
+extension GameHistoryViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let selectedGame = games[indexPath.row]
+        showGameDetails(for: selectedGame)
+    }
+}
 
 extension GameHistoryViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -51,10 +91,8 @@ extension GameHistoryViewController: UITableViewDataSource {
 
         let game = games[indexPath.row]
 
-        // Настройте вашу кастомную ячейку, используя данные из объекта game
         cell.configure(with: game)
 
         return cell
     }
-
 }

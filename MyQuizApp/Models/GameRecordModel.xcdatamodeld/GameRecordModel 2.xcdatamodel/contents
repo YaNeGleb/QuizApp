@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="21513" systemVersion="22G74" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
-    <entity name="Entity" representedClassName="Entity" syncable="YES" codeGenerationType="class"/>
-    <entity name="GameQuestionEntity" representedClassName="GameQuestionEntity" syncable="YES" codeGenerationType="class">
+    <entity name="GameQuestion" representedClassName="GameQuestion" syncable="YES">
         <attribute name="correctAnswer" optional="YES" attributeType="String"/>
         <attribute name="question" optional="YES" attributeType="String"/>
         <attribute name="userAnswer" optional="YES" attributeType="String"/>
-        <relationship name="game" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="GameRecordEntity" inverseName="questions" inverseEntity="GameRecordEntity"/>
+        <relationship name="game" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="GameRecord" inverseName="questions" inverseEntity="GameRecord"/>
     </entity>
-    <entity name="GameRecordEntity" representedClassName="GameRecordEntity" syncable="YES" codeGenerationType="class">
+    <entity name="GameRecord" representedClassName="GameRecord" syncable="YES">
         <attribute name="category" optional="YES" attributeType="String"/>
         <attribute name="completedQuestion" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="correctAnswer" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="correctAnswers" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
-        <relationship name="questions" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="GameQuestionEntity" inverseName="game" inverseEntity="GameQuestionEntity"/>
+        <relationship name="questions" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="GameQuestion" inverseName="game" inverseEntity="GameQuestion"/>
     </entity>
 </model>

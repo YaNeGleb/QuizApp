@@ -64,10 +64,9 @@ class CustomPopUpView: UIView {
                 self.overlayView.backgroundColor = UIColor.black.withAlphaComponent(0.5)
             }
 
-            // Make the view visible without resizing
             self.alpha = 0.0
             UIView.animate(withDuration: 0.3, delay: 0.0, options: .curveEaseInOut, animations: {
-                self.alpha = 1.0 // Make the view visible
+                self.alpha = 1.0
             }, completion: nil)
 
             titleLabel.text = helpText

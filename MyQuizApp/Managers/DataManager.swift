@@ -15,7 +15,7 @@ struct DataManager {
            let data = try? Data(contentsOf: url) {
             do {
                 let quizData = try JSONDecoder().decode(QuizData.self, from: data)
-                let categoriesData = quizData.categories // Получаем массив данных категорий из JSON
+                let categoriesData = quizData.categories
                 
                 for categoryData in categoriesData {
                     let category = Category(name: categoryData.name, questions: categoryData.questions)
