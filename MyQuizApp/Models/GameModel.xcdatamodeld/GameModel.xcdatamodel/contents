@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="21513" systemVersion="22G74" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="Day" representedClassName="Day" syncable="YES" codeGenerationType="class">
+        <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <relationship name="statistics" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Statistics"/>
+        <relationship name="statisticToOne" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Statistics" inverseName="day" inverseEntity="Statistics"/>
+    </entity>
     <entity name="QuestionGame" representedClassName="QuestionGame" syncable="YES" codeGenerationType="class">
         <attribute name="correctAnswer" optional="YES" attributeType="String"/>
         <attribute name="image" optional="YES" attributeType="String"/>
@@ -14,5 +19,10 @@
         <attribute name="countQuestions" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <relationship name="questions" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="QuestionGame" inverseName="game" inverseEntity="QuestionGame"/>
+    </entity>
+    <entity name="Statistics" representedClassName="Statistics" syncable="YES" codeGenerationType="class">
+        <attribute name="completedQuestions" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="correctAnswers" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <relationship name="day" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Day" inverseName="statisticToOne" inverseEntity="Day"/>
     </entity>
 </model>

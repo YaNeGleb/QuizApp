@@ -14,6 +14,7 @@ class MainViewController: UIViewController {
     @IBOutlet weak var categoryLabel: UILabel!
     @IBOutlet weak var statisticsLabel: UILabel!
     @IBOutlet weak var historyButton: UIButton!
+    @IBOutlet weak var statisticButton: UIButton!
     
     
     // MARK: - Properties
@@ -82,6 +83,7 @@ class MainViewController: UIViewController {
     private func configureUI() {
         startGameButton.layer.cornerRadius = 16
         historyButton.layer.cornerRadius = 16
+        statisticButton.layer.cornerRadius = 16
         
         categoryLabel.layer.masksToBounds = true
         categoryLabel.layer.cornerRadius = 20
@@ -146,7 +148,7 @@ class MainViewController: UIViewController {
         
         let questionViewController = storyboard?.instantiateViewController(withIdentifier: "QuestionViewController") as! QuestionViewController
         questionViewController.category = selectedCategory
-        questionViewController.delegate = self
+        questionViewController.quizCompletionDelegate = self
         navigationController?.pushViewController(questionViewController, animated: true)
     }
 }
@@ -163,7 +165,7 @@ extension MainViewController: CategorySelectionDelegate {
 
 
 // MARK: - QuestionViewControllerDelegate
-extension MainViewController: QuestionViewControllerDelegate {
+extension MainViewController: QuizCompletionDelegate {
     func didCompleteQuiz(with category: String, completedQuestion: Int, questionCount: Int, correctAnswers: Int) {
         previousGameCategory = category
         previousGameQuestionCount = questionCount

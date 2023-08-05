@@ -8,7 +8,7 @@
 import UIKit
 import CoreData
 
-protocol QuestionViewControllerDelegate: AnyObject {
+protocol QuizCompletionDelegate: AnyObject {
     func didCompleteQuiz(with category: String, completedQuestion: Int, questionCount: Int, correctAnswers: Int)
 }
 
@@ -36,11 +36,9 @@ class QuestionViewController: UIViewController {
     var category: Category?
     var currentGame: RecordGame?
     var selectedAnswers: [Int] = []
-    weak var delegate: QuestionViewControllerDelegate?
+    weak var quizCompletionDelegate: QuizCompletionDelegate?
     var isAnswerButtonTapped = false
     var selectedAnswerIndex: Int? = nil
-    
-    
     
     
     // MARK: - View Lifecycle
@@ -48,43 +46,53 @@ class QuestionViewController: UIViewController {
         super.viewDidLoad()
         configure()
         createNewGame()
-
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        
-        if selectedAnswers.isEmpty {
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        // Если пользователь не ответил на ни один вопрос и не нажал на кнопку рестарта, удаляем текущую игру
+        if selectedAnswers.isEmpty && !nextQuestionButton.isHidden {
             guard let currentGame = self.currentGame else { return }
             CoreDataManager.shared.persistentContainer.viewContext.delete(currentGame)
             CoreDataManager.shared.saveContext()
         }
+        updateStatisticsForCurrentDate(completedQuestions: currentQuestionIndex)
     }
 
     
     // MARK: - Core Data
     func saveGameRecord() {
-        guard let currentGame = self.currentGame, !questions.isEmpty else {
+        guard let currentGame = self.currentGame else {
             return
         }
         
         let context = CoreDataManager.shared.persistentContainer.viewContext
+        let totalQuestions = questions.count
+        let completedQuestions = selectedAnswers.count
+        
         currentGame.countCorrectAnswer = Int16(userScore)
-        currentGame.completedQuestions = Int16(currentQuestionIndex)
+        currentGame.completedQuestions = Int16(completedQuestions)
+        currentGame.countQuestions = Int16(totalQuestions)
+        
         CoreDataManager.shared.saveContext()
+
     }
     
     // MARK: - Create New Game
     func createNewGame() {
         let context = CoreDataManager.shared.persistentContainer.viewContext
+
+        // Создаем новую игру и устанавливаем значения
         let gameRecord = RecordGame(context: context)
         gameRecord.category = category?.name
         gameRecord.countQuestions = Int16(questions.count)
         gameRecord.date = Date()
-        
+
+        // Сохраняем новую игру и изменения в базе данных
         CoreDataManager.shared.saveContext()
-        
-        self.currentGame = gameRecord
+
+        // Сохраняем текущую игру в свойство контроллера
+        currentGame = gameRecord
     }
     
     // MARK: - Save Game Question
@@ -92,6 +100,7 @@ class QuestionViewController: UIViewController {
         guard let currentGame = self.currentGame, !questions.isEmpty, questions.indices.contains(currentQuestionIndex) else {
             return
         }
+        
         let imageUrl = questions[currentQuestionIndex].imageUrl
 
         let context = CoreDataManager.shared.persistentContainer.viewContext
@@ -104,6 +113,68 @@ class QuestionViewController: UIViewController {
         
         CoreDataManager.shared.saveContext()
     }
+    
+    func updateStatisticsForCurrentDate(completedQuestions: Int) {
+        let context = CoreDataManager.shared.persistentContainer.viewContext
+
+        let currentDate = Date()
+        let fetchRequest: NSFetchRequest<Day> = Day.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "date == %@", currentDate as NSDate)
+
+        do {
+            let results = try context.fetch(fetchRequest)
+            if let existingDay = results.first {
+                // Если найден объект "Day" для текущей даты
+                if let existingStatistics = existingDay.statisticToOne {
+                    // Обновляем существующую статистику
+                    existingStatistics.completedQuestions += Int16(completedQuestions)
+                    try context.save()
+                } else {
+                    // Если статистика для текущей даты не найдена, создаем новый "Statistics" объект
+                    let newStatistics = Statistics(context: context)
+                    newStatistics.completedQuestions = Int16(completedQuestions)
+
+                    // Устанавливаем связь между объектами "Day" и "Statistics"
+                    existingDay.statisticToOne = newStatistics
+
+                    try context.save()
+                }
+            } else {
+                // Если объект "Day" для текущей даты не найден, создаем новый
+                let newDay = Day(context: context)
+                newDay.date = currentDate
+
+                // Создаем новый "Statistics" объект и устанавливаем его значения
+                let newStatistics = Statistics(context: context)
+                newStatistics.completedQuestions = Int16(completedQuestions)
+
+                // Устанавливаем связь между объектами "Day" и "Statistics"
+                newDay.statisticToOne = newStatistics
+
+                try context.save()
+            }
+        } catch {
+            print("Ошибка при получении или обновлении объектов Day: \(error)")
+        }
+    }
+
+      // Метод для сохранения ответа на текущий вопрос
+      func saveGameQuestion(selectedAnswerIndex: Int) {
+          guard let currentGame = self.currentGame, !questions.isEmpty, questions.indices.contains(currentQuestionIndex) else {
+              return
+          }
+          let imageUrl = questions[currentQuestionIndex].imageUrl
+
+          let context = CoreDataManager.shared.persistentContainer.viewContext
+          let gameQuestion = QuestionGame(context: context)
+          gameQuestion.question = questions[currentQuestionIndex].question
+          gameQuestion.correctAnswer = questions[currentQuestionIndex].answers[questions[currentQuestionIndex].correctAnswerIndex]
+          gameQuestion.userAnswer = questions[currentQuestionIndex].answers[selectedAnswerIndex]
+          gameQuestion.game = currentGame
+          gameQuestion.image = imageUrl
+
+          CoreDataManager.shared.saveContext()
+      }
     
     
     // MARK: - Configure
@@ -222,17 +293,17 @@ class QuestionViewController: UIViewController {
         let previousGameQuestionCount = questions.count
         let previousGameCorrectAnswers = userScore
         let completedQuestion = currentQuestionIndex
+        let userDefaults = UserDefaults.standard
         
-        UserDefaults.standard.set(previousGameCategory, forKey: UserDefaultsKeys.previousGameCategory)
-        UserDefaults.standard.set(previousGameQuestionCount, forKey: UserDefaultsKeys.previousGameQuestionCount)
-        UserDefaults.standard.set(previousGameCorrectAnswers, forKey: UserDefaultsKeys.previousGameCorrectAnswers)
-        UserDefaults.standard.set(completedQuestion, forKey: UserDefaultsKeys.completedQuestion)
-        
+        userDefaults.set(previousGameCategory, forKey: UserDefaultsKeys.previousGameCategory)
+        userDefaults.set(previousGameQuestionCount, forKey: UserDefaultsKeys.previousGameQuestionCount)
+        userDefaults.set(previousGameCorrectAnswers, forKey: UserDefaultsKeys.previousGameCorrectAnswers)
+        userDefaults.set(completedQuestion, forKey: UserDefaultsKeys.completedQuestion)
+
         saveGameRecord()
         
-        delegate?.didCompleteQuiz(with: previousGameCategory, completedQuestion: completedQuestion, questionCount: previousGameQuestionCount, correctAnswers: previousGameCorrectAnswers)
+        quizCompletionDelegate?.didCompleteQuiz(with: previousGameCategory, completedQuestion: completedQuestion, questionCount: previousGameQuestionCount, correctAnswers: previousGameCorrectAnswers)
     }
-    
     
     // MARK: - Restart Quiz
     func restartQuiz() {
