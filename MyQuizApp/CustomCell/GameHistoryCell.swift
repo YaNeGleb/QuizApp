@@ -6,10 +6,9 @@
 //
 
 import UIKit
-import Foundation
 
 class GameHistoryCell: UITableViewCell {
-
+    
     @IBOutlet weak var categoryLabel: UILabel!
     @IBOutlet weak var startDateLabel: UILabel!
     @IBOutlet weak var completedQuestions: UILabel!
@@ -19,27 +18,35 @@ class GameHistoryCell: UITableViewCell {
     
     var percentage: Int = 0
     
+    // MARK: - Configuration
     func configure(with game: RecordGame) {
+        setupUI(with: game)
+        calculatePercentage(with: game)
+        setColorViewBackgroundColor()
+    }
+    
+    private func setupUI(with game: RecordGame) {
         categoryLabel.text = game.category
         startDateLabel.text = formatDate(game.date)
         completedQuestions.text = "Вопросов: \(game.completedQuestions) / \(game.countQuestions)"
         userScoreLabel.text = "Счет: \(game.countCorrectAnswer)"
-        
-        let totalQuestionsAnswered = Float(game.completedQuestions)
-            let userScore = Float(game.countCorrectAnswer)
-
-            if totalQuestionsAnswered > 0 {
-                percentage = Int((userScore / totalQuestionsAnswered) * 100)
-            } else {
-                percentage = 0
-            }
-        
         percentLabel.textColor = .white
-        percentLabel.text = "\(percentage)%"
-        
         colorView.layer.cornerRadius = 25
+    }
+    
+    private func calculatePercentage(with game: RecordGame) {
+        let totalQuestionsAnswered = Float(game.completedQuestions)
+        let userScore = Float(game.countCorrectAnswer)
         
-        
+        if totalQuestionsAnswered > 0 {
+            percentage = Int((userScore / totalQuestionsAnswered) * 100)
+        } else {
+            percentage = 0
+        }
+        percentLabel.text = "\(percentage)%"
+    }
+    
+    private func setColorViewBackgroundColor() {
         switch percentage {
         case 0...30:
             colorView.backgroundColor = .red
@@ -52,17 +59,16 @@ class GameHistoryCell: UITableViewCell {
         default:
             colorView.backgroundColor = .systemBlue
         }
-            
     }
     
+    // MARK: - Helper Method
     private func formatDate(_ date: Date?) -> String {
-            guard let date = date else {
-                return ""
-            }
-
-            let formatter = DateFormatter()
-            formatter.dateFormat = "dd.MM.yyyy"
-            return formatter.string(from: date)
+        guard let date = date else {
+            return ""
         }
-    
+        
+        let formatter = DateFormatter()
+        formatter.dateFormat = "dd.MM.yyyy"
+        return formatter.string(from: date)
+    }
 }

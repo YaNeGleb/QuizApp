@@ -15,7 +15,6 @@ protocol QuizCompletionDelegate: AnyObject {
 
 class QuestionViewController: UIViewController {
     
-    
     // MARK: - IBOutlets
     @IBOutlet weak var countQuestionLabel: UILabel!
     @IBOutlet weak var questionLabel: UILabel!
@@ -50,13 +49,15 @@ class QuestionViewController: UIViewController {
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        // Если пользователь не ответил на ни один вопрос и не нажал на кнопку рестарта, удаляем текущую игру
-        if selectedAnswers.isEmpty && !nextQuestionButton.isHidden {
+        // If the user didn't answer any questions and didn't tap the restart button, delete the current game
+        if selectedAnswers.isEmpty && currentQuestionIndex == 0 {
             guard let currentGame = self.currentGame else { return }
             CoreDataManager.shared.persistentContainer.viewContext.delete(currentGame)
             CoreDataManager.shared.saveContext()
         }
-        updateStatisticsForCurrentDate(completedQuestions: currentQuestionIndex)
+
+        let favoriteCategory = calculateFavoriteCategory()
+        updateStatisticsForCurrentDate(completedQuestions: currentQuestionIndex, userScore: userScore, favoriteCategory: favoriteCategory)
     }
 
     
@@ -66,32 +67,30 @@ class QuestionViewController: UIViewController {
             return
         }
         
-        let context = CoreDataManager.shared.persistentContainer.viewContext
         let totalQuestions = questions.count
         let completedQuestions = selectedAnswers.count
+        print(completedQuestions)
         
         currentGame.countCorrectAnswer = Int16(userScore)
         currentGame.completedQuestions = Int16(completedQuestions)
         currentGame.countQuestions = Int16(totalQuestions)
         
         CoreDataManager.shared.saveContext()
-
+        
     }
     
     // MARK: - Create New Game
     func createNewGame() {
         let context = CoreDataManager.shared.persistentContainer.viewContext
-
-        // Создаем новую игру и устанавливаем значения
+        
+        // MARK: - Create New Game
         let gameRecord = RecordGame(context: context)
         gameRecord.category = category?.name
         gameRecord.countQuestions = Int16(questions.count)
         gameRecord.date = Date()
-
-        // Сохраняем новую игру и изменения в базе данных
+        
         CoreDataManager.shared.saveContext()
-
-        // Сохраняем текущую игру в свойство контроллера
+        
         currentGame = gameRecord
     }
     
@@ -102,7 +101,7 @@ class QuestionViewController: UIViewController {
         }
         
         let imageUrl = questions[currentQuestionIndex].imageUrl
-
+        
         let context = CoreDataManager.shared.persistentContainer.viewContext
         let gameQuestion = QuestionGame(context: context)
         gameQuestion.question = questions[currentQuestionIndex].question
@@ -114,79 +113,95 @@ class QuestionViewController: UIViewController {
         CoreDataManager.shared.saveContext()
     }
     
-    func updateStatisticsForCurrentDate(completedQuestions: Int) {
+    // MARK: - Update Statistics
+    func updateStatisticsForCurrentDate(completedQuestions: Int, userScore: Int, favoriteCategory: String) {
         let context = CoreDataManager.shared.persistentContainer.viewContext
-
         let currentDate = Date()
+        
         let fetchRequest: NSFetchRequest<Day> = Day.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "date == %@", currentDate as NSDate)
-
+        
         do {
             let results = try context.fetch(fetchRequest)
             if let existingDay = results.first {
-                // Если найден объект "Day" для текущей даты
                 if let existingStatistics = existingDay.statisticToOne {
-                    // Обновляем существующую статистику
+                    // Update the existing statistics
                     existingStatistics.completedQuestions += Int16(completedQuestions)
+                    existingStatistics.correctAnswers += Int16(userScore)
+                    existingStatistics.favoriteCategory = String(favoriteCategory)
                     try context.save()
                 } else {
-                    // Если статистика для текущей даты не найдена, создаем новый "Statistics" объект
+                    // If statistics for the current date is not found, create a new "Statistics" object
                     let newStatistics = Statistics(context: context)
                     newStatistics.completedQuestions = Int16(completedQuestions)
-
-                    // Устанавливаем связь между объектами "Day" и "Statistics"
+                    newStatistics.correctAnswers += Int16(userScore)
+                    newStatistics.favoriteCategory = String(favoriteCategory)
+                    
+                    // Establish the relationship between "Day" and "Statistics" objects
                     existingDay.statisticToOne = newStatistics
-
+                    
                     try context.save()
                 }
             } else {
-                // Если объект "Day" для текущей даты не найден, создаем новый
+                // If "Day" object for the current date is not found, create a new one
                 let newDay = Day(context: context)
                 newDay.date = currentDate
-
-                // Создаем новый "Statistics" объект и устанавливаем его значения
+                
+                // Create a new "Statistics" object and set its values
                 let newStatistics = Statistics(context: context)
                 newStatistics.completedQuestions = Int16(completedQuestions)
-
-                // Устанавливаем связь между объектами "Day" и "Statistics"
+                newStatistics.correctAnswers += Int16(userScore)
+                newStatistics.favoriteCategory = String(favoriteCategory)
+                
+                // Establish the relationship between "Day" and "Statistics" objects
                 newDay.statisticToOne = newStatistics
-
+                
                 try context.save()
             }
         } catch {
-            print("Ошибка при получении или обновлении объектов Day: \(error)")
+            print("Error fetching or updating objects: \(error)")
         }
     }
 
-      // Метод для сохранения ответа на текущий вопрос
-      func saveGameQuestion(selectedAnswerIndex: Int) {
-          guard let currentGame = self.currentGame, !questions.isEmpty, questions.indices.contains(currentQuestionIndex) else {
-              return
-          }
-          let imageUrl = questions[currentQuestionIndex].imageUrl
+    // MARK: - Calculate Favorite Category
+    func calculateFavoriteCategory() -> String {
+            // Calculate the total completed questions for each category
+            var completedQuestionsByCategory: [String: Int] = [:]
+            let context = CoreDataManager.shared.persistentContainer.viewContext
 
-          let context = CoreDataManager.shared.persistentContainer.viewContext
-          let gameQuestion = QuestionGame(context: context)
-          gameQuestion.question = questions[currentQuestionIndex].question
-          gameQuestion.correctAnswer = questions[currentQuestionIndex].answers[questions[currentQuestionIndex].correctAnswerIndex]
-          gameQuestion.userAnswer = questions[currentQuestionIndex].answers[selectedAnswerIndex]
-          gameQuestion.game = currentGame
-          gameQuestion.image = imageUrl
+            do {
+                let fetchRequest: NSFetchRequest<RecordGame> = RecordGame.fetchRequest()
+                let records = try context.fetch(fetchRequest)
 
-          CoreDataManager.shared.saveContext()
-      }
+                for record in records {
+                    if let category = record.category {
+                        completedQuestionsByCategory[category, default: 0] += Int(record.completedQuestions)
+                    }
+                }
+            } catch {
+                print("Ошибка при получении объектов RecordGame: \(error)")
+            }
+
+            // Find the favorite category with the maximum completed questions
+            var favoriteCategory = ""
+            var maxCompletedQuestions = 0
+            for (category, completedQuestions) in completedQuestionsByCategory {
+                if completedQuestions > maxCompletedQuestions {
+                    maxCompletedQuestions = completedQuestions
+                    favoriteCategory = category
+                }
+            }
+        return favoriteCategory
+
+        }
     
     
     // MARK: - Configure
     func configure() {
         showQuestion()
-        
         nextQuestionButton.isHidden = true
-        
         progressView.progress = 0.0
-        
         customView.layer.cornerRadius = 15
-        
     }
     
     // MARK: - Show Question
@@ -219,10 +234,6 @@ class QuestionViewController: UIViewController {
             savePreviousGame()
             nextQuestionButton.isHidden = true
             
-            if !isAnswerButtonTapped, let selectedAnswerIndex = selectedAnswerIndex {
-                selectedAnswers.append(selectedAnswerIndex)
-            }
-            
             
             let progress = Float(currentQuestionIndex) / Float(questions.count)
             UIView.animate(withDuration: 0.5) {
@@ -236,7 +247,7 @@ class QuestionViewController: UIViewController {
     @IBAction func helpButtonTapped(_ sender: Any) {
         guard let currentQuestion = category?.questions[currentQuestionIndex] else { return }
         let helpText = currentQuestion.help
-        let customPopUpView = CustomPopUpView(frame: view.bounds, inView: self) // Передаем self как аргумент inView
+        let customPopUpView = CustomPopUpView(frame: view.bounds, inView: self)
         view.addSubview(customPopUpView)
         customPopUpView.show(helpText: helpText)
     }
@@ -263,6 +274,11 @@ class QuestionViewController: UIViewController {
         
         isAnswerButtonTapped = true
         nextQuestionButton.isHidden = false
+        
+        if isAnswerButtonTapped, let selectedAnswerIndex = selectedAnswerIndex {
+            selectedAnswers.append(selectedAnswerIndex)
+        }
+        
         updateScoreLabel()
         saveGameQuestion()
     }
@@ -299,7 +315,7 @@ class QuestionViewController: UIViewController {
         userDefaults.set(previousGameQuestionCount, forKey: UserDefaultsKeys.previousGameQuestionCount)
         userDefaults.set(previousGameCorrectAnswers, forKey: UserDefaultsKeys.previousGameCorrectAnswers)
         userDefaults.set(completedQuestion, forKey: UserDefaultsKeys.completedQuestion)
-
+        
         saveGameRecord()
         
         quizCompletionDelegate?.didCompleteQuiz(with: previousGameCategory, completedQuestion: completedQuestion, questionCount: previousGameQuestionCount, correctAnswers: previousGameCorrectAnswers)
@@ -359,4 +375,3 @@ class QuestionViewController: UIViewController {
         }
     }
 }
-

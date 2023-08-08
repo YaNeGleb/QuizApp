@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ButtonCell: UICollectionViewCell {
+class GroupsButtonCell: UICollectionViewCell {
     
     // MARK: - IBOutlets
     @IBOutlet weak var categoryLabel: UILabel!

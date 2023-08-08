@@ -14,6 +14,8 @@
 		51623E142A651D24009CC23E /* jsonTest1.json in Resources */ = {isa = PBXBuildFile; fileRef = 51623E132A651D24009CC23E /* jsonTest1.json */; };
 		51623E162A65226D009CC23E /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51623E152A65226D009CC23E /* DataManager.swift */; };
 		51623E182A6525F1009CC23E /* UserDefaultsKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51623E172A6525F1009CC23E /* UserDefaultsKeys.swift */; };
+		516761602A8113E50058D6B0 /* StatisticCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5167615E2A8113E50058D6B0 /* StatisticCell.swift */; };
+		516761612A8113E50058D6B0 /* StatisticCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5167615F2A8113E50058D6B0 /* StatisticCell.xib */; };
 		516A67CC2A7599F200E0303D /* GameHistoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 516A67CA2A7599F200E0303D /* GameHistoryCell.swift */; };
 		516A67CD2A7599F200E0303D /* GameHistoryCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 516A67CB2A7599F200E0303D /* GameHistoryCell.xib */; };
 		516A67D22A766ECE00E0303D /* GameDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 516A67D02A766ECE00E0303D /* GameDetailsViewController.swift */; };
@@ -30,7 +32,7 @@
 		51B587622A640C9D0050E285 /* QuestionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51B587612A640C9D0050E285 /* QuestionViewController.swift */; };
 		51B587642A640CD30050E285 /* GroupsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51B587632A640CD30050E285 /* GroupsViewController.swift */; };
 		51B587682A640D280050E285 /* ButtonCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 51B587672A640D280050E285 /* ButtonCell.xib */; };
-		51B5876A2A6410EC0050E285 /* ButtonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51B587692A6410EC0050E285 /* ButtonCell.swift */; };
+		51B5876A2A6410EC0050E285 /* GroupsButtonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51B587692A6410EC0050E285 /* GroupsButtonCell.swift */; };
 		51C3BE7B2A6A735000732D1A /* CustomPopUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51C3BE7A2A6A735000732D1A /* CustomPopUpView.swift */; };
 		51C3BE7D2A6A737D00732D1A /* CustomPopUpView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 51C3BE7C2A6A737D00732D1A /* CustomPopUpView.xib */; };
 /* End PBXBuildFile section */
@@ -43,6 +45,8 @@
 		51623E132A651D24009CC23E /* jsonTest1.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = jsonTest1.json; sourceTree = "<group>"; };
 		51623E152A65226D009CC23E /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		51623E172A6525F1009CC23E /* UserDefaultsKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsKeys.swift; sourceTree = "<group>"; };
+		5167615E2A8113E50058D6B0 /* StatisticCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticCell.swift; sourceTree = "<group>"; };
+		5167615F2A8113E50058D6B0 /* StatisticCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = StatisticCell.xib; sourceTree = "<group>"; };
 		516A67CA2A7599F200E0303D /* GameHistoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameHistoryCell.swift; sourceTree = "<group>"; };
 		516A67CB2A7599F200E0303D /* GameHistoryCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GameHistoryCell.xib; sourceTree = "<group>"; };
 		516A67D02A766ECE00E0303D /* GameDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameDetailsViewController.swift; sourceTree = "<group>"; };
@@ -61,7 +65,7 @@
 		51B587612A640C9D0050E285 /* QuestionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionViewController.swift; sourceTree = "<group>"; };
 		51B587632A640CD30050E285 /* GroupsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupsViewController.swift; sourceTree = "<group>"; };
 		51B587672A640D280050E285 /* ButtonCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ButtonCell.xib; sourceTree = "<group>"; };
-		51B587692A6410EC0050E285 /* ButtonCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonCell.swift; sourceTree = "<group>"; };
+		51B587692A6410EC0050E285 /* GroupsButtonCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupsButtonCell.swift; sourceTree = "<group>"; };
 		51C3BE7A2A6A735000732D1A /* CustomPopUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPopUpView.swift; sourceTree = "<group>"; };
 		51C3BE7C2A6A737D00732D1A /* CustomPopUpView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CustomPopUpView.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -121,6 +125,7 @@
 				516A67D52A7670AF00E0303D /* GameDetailsCell.xib */,
 				516A67CB2A7599F200E0303D /* GameHistoryCell.xib */,
 				51B587672A640D280050E285 /* ButtonCell.xib */,
+				5167615F2A8113E50058D6B0 /* StatisticCell.xib */,
 				51C3BE7C2A6A737D00732D1A /* CustomPopUpView.xib */,
 			);
 			path = Xibs;
@@ -129,9 +134,10 @@
 		515B36B32A7446540082AF73 /* CustomCell */ = {
 			isa = PBXGroup;
 			children = (
-				51B587692A6410EC0050E285 /* ButtonCell.swift */,
+				51B587692A6410EC0050E285 /* GroupsButtonCell.swift */,
 				516A67CA2A7599F200E0303D /* GameHistoryCell.swift */,
 				516A67D42A7670AF00E0303D /* GameDetailsCell.swift */,
+				5167615E2A8113E50058D6B0 /* StatisticCell.swift */,
 			);
 			path = CustomCell;
 			sourceTree = "<group>";
@@ -280,6 +286,7 @@
 				516A67D72A7670AF00E0303D /* GameDetailsCell.xib in Resources */,
 				51B587552A640C430050E285 /* Main.storyboard in Resources */,
 				51C3BE7D2A6A737D00732D1A /* CustomPopUpView.xib in Resources */,
+				516761612A8113E50058D6B0 /* StatisticCell.xib in Resources */,
 				51B587682A640D280050E285 /* ButtonCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -295,6 +302,7 @@
 				516A67D22A766ECE00E0303D /* GameDetailsViewController.swift in Sources */,
 				516A67CC2A7599F200E0303D /* GameHistoryCell.swift in Sources */,
 				515C8BE92A7570F800C7613A /* GameHistoryViewController.swift in Sources */,
+				516761602A8113E50058D6B0 /* StatisticCell.swift in Sources */,
 				51623E162A65226D009CC23E /* DataManager.swift in Sources */,
 				51B5874E2A640C430050E285 /* AppDelegate.swift in Sources */,
 				5120592C2A7BE1FB002D973F /* StatisticsViewController.swift in Sources */,
@@ -307,7 +315,7 @@
 				51B587642A640CD30050E285 /* GroupsViewController.swift in Sources */,
 				517B33252A69932300215DE3 /* ImageView+LoadImage.swift in Sources */,
 				515C8BE72A756F0900C7613A /* CoreDataManager.swift in Sources */,
-				51B5876A2A6410EC0050E285 /* ButtonCell.swift in Sources */,
+				51B5876A2A6410EC0050E285 /* GroupsButtonCell.swift in Sources */,
 				51B5521F2A77BFF100B87AA7 /* GameModel.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

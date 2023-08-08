@@ -79,10 +79,13 @@
                                     <segue destination="0eh-GF-V7y" kind="show" id="TnO-us-j69"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VC8-J6-vuZ">
-                                <rect key="frame" x="85" y="711" width="223" height="57"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VC8-J6-vuZ">
+                                <rect key="frame" x="96.666666666666686" y="713" width="200" height="50"/>
                                 <color key="backgroundColor" systemColor="systemBlueColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="dNA-ma-Kil"/>
+                                    <constraint firstAttribute="width" constant="200" id="zSU-Yp-DG1"/>
+                                </constraints>
                                 <color key="tintColor" red="0.94899111989999996" green="0.9492409825" blue="0.97054463619999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" title="Статистика"/>
@@ -95,6 +98,8 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="xRH-D8-21b" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="60" id="3bX-Yb-SAJ"/>
+                            <constraint firstItem="VC8-J6-vuZ" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="Dxo-B4-arE"/>
+                            <constraint firstItem="VC8-J6-vuZ" firstAttribute="top" secondItem="AfY-OF-qPK" secondAttribute="bottom" constant="10" id="EID-wZ-Lui"/>
                             <constraint firstItem="xRH-D8-21b" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="65" id="PWj-jn-Wee"/>
                             <constraint firstItem="AfY-OF-qPK" firstAttribute="top" secondItem="xRH-D8-21b" secondAttribute="bottom" constant="20" id="Qmd-fz-HA7"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="xRH-D8-21b" secondAttribute="trailing" constant="65" id="cZ6-yl-p8V"/>

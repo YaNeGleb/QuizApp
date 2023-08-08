@@ -51,7 +51,7 @@ class GroupsViewController: UIViewController {
 }
 
 
-// MARK: - UICollectionViewDataSource & UICollectionViewDelegate
+// MARK: - Extensions
 extension GroupsViewController: UICollectionViewDataSource, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return categories.count
@@ -60,7 +60,7 @@ extension GroupsViewController: UICollectionViewDataSource, UICollectionViewDele
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let category = categories[indexPath.item]
         
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ButtonCell", for: indexPath) as! ButtonCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ButtonCell", for: indexPath) as! GroupsButtonCell
         cell.categoryLabel.text = category.name
         cell.countQuestionsLabel.text = "Вопросов: \(category.questions.count)"
         

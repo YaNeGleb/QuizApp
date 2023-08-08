@@ -38,7 +38,6 @@ class CustomPopUpView: UIView {
         vc.view.addSubview(overlayView)
         xibSetup()
         self.center = vc.view.center
-
     }
     
     // MARK: - XIB Setup
@@ -60,36 +59,55 @@ class CustomPopUpView: UIView {
     
     // MARK: - Show Custom PopUp View
     func show(helpText: String) {
-            UIView.animate(withDuration: 0.3) {
-                self.overlayView.backgroundColor = UIColor.black.withAlphaComponent(0.5)
-            }
-
-            self.alpha = 0.0
-            UIView.animate(withDuration: 0.3, delay: 0.0, options: .curveEaseInOut, animations: {
-                self.alpha = 1.0
-            }, completion: nil)
-
-            titleLabel.text = helpText
+        animateShowOverlayView()
+        animateShowCustomView(with: helpText)
+    }
+    
+    private func animateShowOverlayView() {
+        UIView.animate(withDuration: 0.3) {
+            self.overlayView.backgroundColor = UIColor.black.withAlphaComponent(0.5)
         }
+    }
+    
+    private func animateShowCustomView(with helpText: String) {
+        self.alpha = 0.0
+        UIView.animate(withDuration: 0.3, delay: 0.0, options: .curveEaseInOut, animations: {
+            self.alpha = 1.0
+        }, completion: nil)
+
+        titleLabel.text = helpText
+    }
     
     // MARK: - Hide Custom PopUp View
     func hide() {
-            // Animation for smooth hiding shading and custom view
-            UIView.animate(withDuration: 0.3, animations: {
-                self.overlayView?.backgroundColor = UIColor.black.withAlphaComponent(0.0) // Убираем затемнение
-                self.alpha = 0.0
-            }, completion: { _ in
-                // At the end of the animation, remove the blackout and custom view
-                self.overlayView?.removeFromSuperview()
-                self.removeFromSuperview()
-            })
-        }
+        animateHideOverlayView()
+        animateHideCustomView()
+    }
+    
+    private func animateHideOverlayView() {
+        UIView.animate(withDuration: 0.3, animations: {
+            self.overlayView?.backgroundColor = UIColor.black.withAlphaComponent(0.0)
+            self.alpha = 0.0
+        }, completion: { _ in
+            self.overlayView?.removeFromSuperview()
+            self.removeFromSuperview()
+        })
+    }
+    
+    private func animateHideCustomView() {
+        // Animation for smooth hiding shading and custom view
+        UIView.animate(withDuration: 0.3, animations: {
+            self.overlayView?.backgroundColor = UIColor.black.withAlphaComponent(0.0) // Убираем затемнение
+            self.alpha = 0.0
+        }, completion: { _ in
+            // At the end of the animation, remove the blackout and custom view
+            self.overlayView?.removeFromSuperview()
+            self.removeFromSuperview()
+        })
+    }
 
     // MARK: - IBAction
     @IBAction func doneButtonTapped(_ sender: Any) {
         hide()
     }
-    
-    
-    
 }
