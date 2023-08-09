@@ -1,4 +1,4 @@
-PomodoroTimer
+QuizApp
 <details><summary>Video</summary>
 
 https://github.com/YaNeGleb/QuizApp/assets/129688148/6641cefd-4564-4b89-a1f8-a85a3d76ecce
