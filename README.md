@@ -28,11 +28,17 @@ Description
 Check your Swift knowledge and solidify your theory!
 
 • Over 200 questions
+
 • Progress tracking for each category in percentages
+
 • Saving game history and unfinished games
+
 • History of each game (full list of questions and answers)
+
 • Theory related to each question in the history
+
 • Convenient category and section selection
+
 • Statistics for your games over the past 7 days
 
 
