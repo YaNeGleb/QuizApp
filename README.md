@@ -22,3 +22,19 @@ https://github.com/YaNeGleb/QuizApp/assets/129688148/1cb8fa73-1e5c-4d8b-852b-390
 
   
 </details>
+
+Description
+
+Check your Swift knowledge and solidify your theory!
+
+• Over 200 questions
+• Progress tracking for each category in percentages
+• Saving game history and unfinished games
+• History of each game (full list of questions and answers)
+• Theory related to each question in the history
+• Convenient category and section selection
+• Statistics for your games over the past 7 days
+
+
+This repository contains a training application created for the purpose of studying and practicing various aspects of Swift development. The project is designed without a strict predefined structure to encompass diverse concepts and techniques that I have learned during the learning process. Here you will find different approaches to creating interfaces.
+Please keep in mind that the code presented here is solely for educational purposes. It may include learning experiments rather than optimal practices recommended for real projects.
